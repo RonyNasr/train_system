@@ -1,8 +1,8 @@
 require('sinatra')
 require('sinatra/reloader')
 also_reload('lib/**/*.rb')
-require('./lib/trains')
-require('./lib/cities')
+require('./lib/train')
+require('./lib/city')
 require('pg')
 
 DB = PG.connect({:dbname => "train_system"})
