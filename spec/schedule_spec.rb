@@ -4,7 +4,6 @@ describe('schedule') do
   describe('#initialize') do
     it('creates a new schedule') do
       test_schedule = Schedule.new({:train_id => 3, :city_id => 2, :time => "12:30"})
-
       expect(test_schedule.time()).to(eq("12:30"))
     end
   end
@@ -13,7 +12,7 @@ describe('schedule') do
     it "creates a new schedule and saves it" do
       test_schedule = Schedule.new({:train_id => 3, :city_id => 2, :time => '12:30:00'})
       test_schedule.save()
-
+binding.pry
       expect(Schedule.all()).to(eq([test_schedule]))
     end
   end

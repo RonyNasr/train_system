@@ -43,16 +43,22 @@ class Train
 
   define_method(:delete) do
     DB.exec("DELETE FROM trains WHERE id = #{self.id()};")
+    DB.exec("DELETE FROM cities_trains WHERE train_id = #{self.id()};")
   end
 
   define_method(:cities) do
-    cities_list = DB.exec("SELECT * FROM cities JOIN cities_trains ON cities_trains.id = city_id WHERE train_id = #{self.id()};")
-     cities = []
+    results = DB.exec("SELECT id,city_id,time FROM cities_trains WHERE train_id = #{self.id()};")
+     train_cities = []
 
-    cities_list.each() do city
-      cities.push(City.new({:id => city.fetch("id"), :name => city.fetch("name")}))
+    results.each() do |result|
+      city_id = result.fetch("city_id").to_i()
+      time = result.fetch("time")
+      id = result.fetch("id").to_i()
+      train_cities.push(Schedule.new({:id => id, :train_id => self.id(), :city_id => city_id ,:time => time}))
     end
-    cities
+    train_cities
   end
+
+
 
 end

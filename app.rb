@@ -3,6 +3,7 @@ require('sinatra/reloader')
 also_reload('lib/**/*.rb')
 require('./lib/train')
 require('./lib/city')
+require ("./lib/schedule")
 require('pg')
 
 DB = PG.connect({:dbname => "train_system"})
@@ -51,6 +52,9 @@ end
 get('/operator/trains/:id') do
   id = params.fetch("id").to_i()
   @train = Train.find(id)
+  @trains = Train.all()
+  @cities = City.all()
+  @train_cities = @train.cities()
   erb(:train)
 end
 
@@ -65,8 +69,22 @@ end
 delete('/operator/trains/:id') do
   @train = Train.find(params.fetch('id').to_i())
   @train.delete()
+  @cities = City.all()
   @trains = Train.all()
   erb(:trains)
+end
+
+post ('/operator/trains/:id') do
+  @train = Train.find(params.fetch('id').to_i())
+  city_id = params.fetch('city_id').to_i()
+  time = params.fetch('time')
+
+  schedule = Schedule.new({:train_id => @train.id(), :city_id => city_id, :time => time})
+  schedule.save()
+  @train_cities = @train.cities()
+  @cities = City.all()
+
+  erb(:train)
 end
 
 get('/operator/cities/:id') do
@@ -115,5 +133,14 @@ end
 get('/operator/schedule') do
   @trains = Train.all()
   @cities = City.all()
+  erb(:schedule)
+end
+
+get('/operator/train/schedule/:id') do
+  @schedule = Schedule.find(params.fetch("id").to_i())
+  @train = Train.find(@schedule.train_id())
+  @city = City.find(@schedule.city_id())
+  @cities = City.all()
+  @train_cities = @train.cities()
   erb(:schedule)
 end

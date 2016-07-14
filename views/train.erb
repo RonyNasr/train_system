@@ -14,20 +14,67 @@
     <button class="btn btn-default" type="submit">Delete</button>
   </form>
 
-  <a class="btn btn-default" href="/operator/trains">back</a>
-<% else %>
-  <% if @cities.any?() %>
-  <ul>
-    <% @cities.each() do |city| %>
-      <li><a href="/rider/cities/<%= city.id() %>"><%= city.name() %></a></li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>
-    there are no cities
-  </p>
+
+  <form action="/operator/trains/<%= @train.id() %>" method="post">
+    <!-- <input type="hidden" name="_method" value="patch"> -->
+
+    <label for="city">cities</label>
+    <select class="form-control" required name="city_id">
+      <option></option>
+      <% if @cities.any?() %>
+        <%@cities.each() do |city|%>
+        <option value="<%= city.id() %>"><%= city.name() %></option>
+        <% end %>
+      <% end %>
+    </select>
+
+    <label for="time">time</label>
+    <select class="form-control" name="time">
+      <% (0..23).each() do |i| %>
+      <% if i <10
+        hour = "0" + i.to_s()
+      else
+        hour = i.to_s()
+      end  %>
+        <option><%= hour %>:00</option>
+        <option><%= hour %>:30</option>
+      <% end %>
+    </select>
+
+    <button type="submit" class="btn btn-default">Add Schedule</button>
+    <a class="btn btn-default" href="/operator/trains">back</a>
+  </form>
+
+  <% if @train_cities.any?() %>
+    <ul>
+      <% @train_cities.each() do |train_city| %>
+        <%= train_city.id() %>
+        <% city = City.find(train_city.city_id().to_i()) %>
+        <li><a href="/operator/train/schedule/<%= train_city.id() %>"><%= city.name() %> at <%= train_city.time() %></a></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>
+      there are no cities
+    </p>
   <% end %>
 
 
+
+
+
+<% else %>
+  <% if @train_cities.any?() %>
+  <ul>
+    <% @train_cities.each() do |train_city| %>
+    <% city = City.find(train_city.city_id().to_i()) %>
+      <li><a href="/rider/cities/<%= city.id() %>"><%= city.name() %></a></li>
+    <% end %>
+  </ul>
+  <% else %>
+    <p>
+      there are no cities
+    </p>
+  <% end %>
   <a class="btn btn-default" href="/rider/trains">back</a>
 <% end %>
