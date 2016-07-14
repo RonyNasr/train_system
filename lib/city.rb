@@ -44,4 +44,16 @@ class City
     DB.exec("DELETE FROM cities WHERE id = #{self.id()};")
   end
 
+  define_method(:trains) do
+    results = DB.exec("SELECT id,train_id,time FROM cities_trains WHERE city_id = #{self.id()};")
+     city_trains = []
+
+    results.each() do |result|
+      train_id = result.fetch("train_id").to_i()
+      time = result.fetch("time")
+      id = result.fetch("id").to_i()
+      city_trains.push(Schedule.new({:id => id, :train_id => train_id, :city_id => self.id() ,:time => time}))
+    end
+    city_trains
+  end
 end

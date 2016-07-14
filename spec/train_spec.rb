@@ -52,7 +52,7 @@ describe('train') do
   end
 
   describe('#delete') do
-    it('find a peticular train and changes its name') do
+    it('find a peticular train and delete it') do
       test_train = Train.new({:name => 'Green Line'})
       test_train.save()
       test_train.delete()

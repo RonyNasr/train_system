@@ -1,15 +1,38 @@
-<form action="/operator/cities/<%= @city.id() %>" method="post">
-  <input type="hidden" name="_method" value="patch">
+<% if url.include?("operator") %>
+  <form action="/operator/cities/<%= @city.id() %>" method="post">
+    <input type="hidden" name="_method" value="patch">
 
-  <label for="name">Rename your city</label>
-  <input type="text" name="name" value="<%= @city.name() %>">
-  <button class="btn btn-default" type="submit">Rename</button>
-</form>
+    <label for="name">Rename your city</label>
+    <input type="text" name="name" value="<%= @city.name() %>">
+    <button class="btn btn-default" type="submit">Rename</button>
+  </form>
 
-<form action="/operator/cities/<%= @city.id() %>" method="post">
-  <input type="hidden" name="_method" value="delete">
+  <form action="/operator/cities/<%= @city.id() %>" method="post">
+    <input type="hidden" name="_method" value="delete">
 
-  <button class="btn btn-default" type="submit">Delete</button>
-</form>
+    <button class="btn btn-default" type="submit">Delete</button>
+  </form>
 
-<a class="btn btn-default" href="/operator/cities">back</a>
+  <a class="btn btn-default" href="/operator/cities">back</a>
+<% else %>
+
+<h2><%= @city.name()%></h2>
+
+
+<% if @city_trains.any?() %>
+  <ul>
+    <% @city_trains.each() do |city_train| %>
+      <% train = Train.find(city_train.train_id().to_i()) %>
+      <li><%= train.name() %> at <%= city_train.time() %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>
+    there are no trains
+  </p>
+<% end %>
+
+
+
+  <a class="btn btn-default" href="/rider/cities">back</a>
+<% end %>

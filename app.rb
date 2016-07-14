@@ -122,19 +122,20 @@ get("/rider/cities") do
   erb(:cities)
 end
 
+get('/rider/cities/:id') do
+  id = params.fetch('id').to_i()
+  @city = City.find(id)
+  @city_trains = @city.trains()
+  erb(:city)
+end
 
 get('/rider/trains/:id') do
   id = params.fetch("id").to_i()
-  train = Train.find(id)
-  @cities = train.cities()
+  @train = Train.find(id)
+  @train_cities = @train.cities()
   erb(:train)
 end
 
-get('/operator/schedule') do
-  @trains = Train.all()
-  @cities = City.all()
-  erb(:schedule)
-end
 
 get('/operator/train/schedule/:id') do
   @schedule = Schedule.find(params.fetch("id").to_i())
@@ -143,4 +144,39 @@ get('/operator/train/schedule/:id') do
   @cities = City.all()
   @train_cities = @train.cities()
   erb(:schedule)
+end
+
+delete("/operator/trains/schedule/:id") do
+  id = params.fetch("id").to_i()
+  schedule = Schedule.find(id)
+  train_id = schedule.train_id()
+  @train = Train.find(train_id)
+  schedule.delete()
+  @trains = Train.all()
+  @cities = City.all()
+  @train_cities = @train.cities()
+  erb(:train)
+end
+
+patch('/operator/trains/schedule/:id') do
+  id = params.fetch("id").to_i()
+  city_id = params.fetch("city_id").to_i()
+  time = params.fetch("time")
+  schedule = Schedule.find(id)
+  schedule.update({:city_id => city_id, :time => time})
+  @trains = Train.all()
+  @cities = City.all()
+  train_id = schedule.train_id()
+  @train = Train.find(train_id)
+  @train_cities = @train.cities()
+  erb(:train)
+end
+
+get('/rider/ticket') do
+erb(:ticket)
+end
+
+get("/rider/time_table") do
+  @schedule = Schedule.all()
+  erb(:time_table)
 end

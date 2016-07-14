@@ -1,0 +1,12 @@
+<h1>Time Table</h1>
+<% if @schedule.any?() %>
+<ul>
+    <% @schedule.each() do |stop| %>
+
+    <li><%= stop.city_name() %>, <%= stop.train_name() %>, <%= stop.time()%></li>
+  <% end %>
+</ul>
+
+<% else %>
+<h3>no schedule up yet</h3>
+<% end %>

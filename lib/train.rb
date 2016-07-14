@@ -27,7 +27,6 @@ class Train
   end
 
   define_singleton_method(:find) do |id|
-    # train_found
     Train.all().each() do |train|
       if train.id() == id
         return train

@@ -1,16 +1,33 @@
+
 <h1>Cities</h1>
+<% if url.include?("operator") %>
+  <% if @cities.any?() %>
+    <ul>
+      <% @cities.each() do |city| %>
+        <li><a href="/operator/cities/<%= city.id() %>"><%= city.name() %></a></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>
+      there are no cities
+    </p>
+  <% end %>
 
-<% if @cities.any?() %>
-  <ul>
-    <% @cities.each() do |city| %>
-      <li><a href="/operator/cities/<%= city.id() %>"><%= city.name() %></a></li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>
-    there are no cities
-  </p>
-<% end %>
+  <a class="btn btn-default" href="/city_form">Add City</a>
+  <a class="btn btn-default" href="/operator">back</a>
+  <% else %>
+  <% if @cities.any?() %>
+    <ul>
+      <% @cities.each() do |city| %>
+        <li><a href="/rider/cities/<%= city.id() %>"><%= city.name() %></a></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>
+      there are no cities
+    </p>
+  <% end %>
 
-<a class="btn btn-default" href="/city_form">Add City</a>
-<a class="btn btn-default" href="/operator">back</a>
+  <a class="btn btn-default" href="/rider">back</a>
+
+  <% end %>

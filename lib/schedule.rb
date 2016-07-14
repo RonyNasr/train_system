@@ -38,6 +38,30 @@ class Schedule
     schedules
   end
 
+  define_method(:delete) do
+    DB.exec("DELETE FROM cities_trains WHERE id = #{self.id()};")
+  end
+
+  define_method(:update) do |attributes|
+    @id = self.id()
+    @city_id = attributes.fetch(:city_id)
+    @time = attributes.fetch(:time)
+    DB.exec("UPDATE cities_trains SET city_id = #{@city_id}, time = '#{@time}' WHERE id = #{@id};")
+  end
+
+  define_method(:city_name) do
+    @name_id = self.city_id().to_i()
+    result = DB.exec("SELECT name FROM cities WHERE id = #{@name_id};")
+    city_name = result.first().fetch('name')
+    city_name
+  end
+
+  define_method(:train_name) do
+    @id = self.train_id().to_i()
+    result = DB.exec("SELECT name FROM trains WHERE id = #{@id};")
+    train_name = result.first().fetch("name")
+    train_name
+  end
 
 
 end

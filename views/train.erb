@@ -48,7 +48,6 @@
   <% if @train_cities.any?() %>
     <ul>
       <% @train_cities.each() do |train_city| %>
-        <%= train_city.id() %>
         <% city = City.find(train_city.city_id().to_i()) %>
         <li><a href="/operator/train/schedule/<%= train_city.id() %>"><%= city.name() %> at <%= train_city.time() %></a></li>
       <% end %>
@@ -64,6 +63,9 @@
 
 
 <% else %>
+<h2><%= @train.name() %></h2>
+
+
   <% if @train_cities.any?() %>
   <ul>
     <% @train_cities.each() do |train_city| %>
