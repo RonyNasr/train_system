@@ -89,3 +89,31 @@ delete('/operator/cities/:id') do
   @cities = City.all()
   erb(:cities)
 end
+
+get('/rider') do
+  erb(:rider)
+end
+
+get("/rider/trains") do
+  @trains = Train.all()
+  erb(:trains)
+end
+
+get("/rider/cities") do
+  @cities = City.all()
+  erb(:cities)
+end
+
+
+get('/rider/trains/:id') do
+  id = params.fetch("id").to_i()
+  train = Train.find(id)
+  @cities = train.cities()
+  erb(:train)
+end
+
+get('/operator/schedule') do
+  @trains = Train.all()
+  @cities = City.all()
+  erb(:schedule)
+end

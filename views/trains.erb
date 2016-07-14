@@ -1,16 +1,33 @@
 <h1>Trains</h1>
 
-<% if @trains.any?() %>
-  <ul>
-    <% @trains.each() do |train| %>
-      <li><a href="/operator/trains/<%= train.id() %>"><%= train.name() %></a></li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>
-    there are no trains
-  </p>
-<% end %>
+<% if url.include?("operator") %>
+  <% if @trains.any?() %>
+    <ul>
+      <% @trains.each() do |train| %>
+        <li><a href="/operator/trains/<%= train.id() %>"><%= train.name() %></a></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>
+      there are no trains
+    </p>
+  <% end %>
 
-<a class="btn btn-default" href="/train_form">Add Train</a>
-<a class="btn btn-default" href="/operator">back</a>
+  <a class="btn btn-default" href="/train_form">Add Train</a>
+  <a class="btn btn-default" href="/operator">back</a>
+<% else %>
+  <% if @trains.any?() %>
+    <ul>
+      <% @trains.each() do |train| %>
+        <li><a href="/rider/trains/<%= train.id() %>"><%= train.name() %></a></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>
+      there are no trains
+    </p>
+  <% end %>
+
+  <a class="btn btn-default" href="/rider">back</a>
+
+<% end %>

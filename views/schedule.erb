@@ -1,0 +1,29 @@
+<h1>schedule</h1>
+<form class="" action="index.html" method="post">
+  <label for="train">trains</label>
+  <select class="form-control" required>
+    <option></option>
+    <% if @trains.any?() %>
+      <%@trains.each() do |train|%>
+      <option value="<%= train.id() %>"><%= train.name() %></option>
+      <% end %>
+    <% end %>
+
+  </select>
+  <label for="city">cities</label>
+  <select class="form-control" required>
+    <option></option>
+    <% if @cities.any?() %>
+      <%@cities.each() do |city|%>
+      <option value="<%= city.id() %>"><%= city.name() %></option>
+      <% end %>
+    <% end %>
+
+  </select>
+
+  <button type="button" name="button"></button>
+</form>
+
+
+
+<a class="btn btn-default" href="/operator">back</a>
